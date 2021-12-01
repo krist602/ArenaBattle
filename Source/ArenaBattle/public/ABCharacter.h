@@ -19,6 +19,8 @@ class ARENABATTLE_API AABCharacter : public ACharacter
 	void SetCharacterState(ECharacterState NewState);
 	ECharacterState GetCharacterState() const;
 	int32 GetExp() const;
+	float GetFinalAttackRange() const;
+	float GetFinalAttackDamage() const;
 
 protected:
 	// Called when the game starts or when spawned

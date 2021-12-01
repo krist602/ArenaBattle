@@ -57,6 +57,7 @@ void UABHUDWidget::UpdatePlayerState()
 	PlayerName->SetText(FText::FromString(CurrentPlayerState->GetPlayerName())); //PlayerName은 String형이기때문에 Text형으로 변환한다.
 	PlayerLevel->SetText(FText::FromString(FString::FromInt(CurrentPlayerState->GetCharacterLevel()))); //GetCharacterLevel은 int형이기때문에 String형으로 변환하고, String형을 Text형으로 변환한다.
 	CurrentScore->SetText(FText::FromString(FString::FromInt(CurrentPlayerState->GetGameScore())));
+	HighScore->SetText(FText::FromString(FString::FromInt(CurrentPlayerState->GetGameHighScore())));
 }
 
 

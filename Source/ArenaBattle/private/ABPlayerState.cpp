@@ -2,17 +2,25 @@
 
 #include "ABPlayerState.h"
 #include "ABGameInstance.h"
+#include "ABSaveGame.h"
 
 AABPlayerState::AABPlayerState()
 {
 	CharacterLevel = 1;
 	GameScore = 0;
+	GameHighScore = 0;
 	Exp = 0;
+	SaveSlotName = TEXT("Player1");
 }
 
 int32 AABPlayerState::GetGameScore() const
 {
 	return GameScore;
+}
+
+int32 AABPlayerState::GetGameHighScore() const
+{
+	return GameHighScore;
 }
 
 int32 AABPlayerState::GetCharacterLevel() const
@@ -22,10 +30,32 @@ int32 AABPlayerState::GetCharacterLevel() const
 
 void AABPlayerState::InitPlayerData()
 {
-	SetPlayerName(TEXT("Destiny"));
-	SetCharacterLevel(5);
+	auto ABSaveGame = Cast<UABSaveGame>(UGameplayStatics::LoadGameFromSlot(SaveSlotName, 0)); //ABSaveGame 형식의 변수 선언. 그 변수엔 SaveSlotName과 UserIndex를 비교해서 정보를 가져온다. 현재는 1개기 때문에 0인듯
+	if (nullptr == ABSaveGame)
+	{
+		ABSaveGame = GetMutableDefault<UABSaveGame>();
+	}
+	//아래 부분은 SaveGame의 정보를 가져와서 현재 게임에 입혀주는 부분.
+	SetPlayerName(ABSaveGame->PlayerName); 
+	SetCharacterLevel(ABSaveGame->Level);
 	GameScore = 0;
-	Exp = 0;
+	GameHighScore = ABSaveGame->HighScore;
+	Exp = ABSaveGame->Exp;
+	SavePlayerData();
+}
+
+void AABPlayerState::SavePlayerData()
+{
+	UABSaveGame* NewPlayerData = NewObject<UABSaveGame>(); //새로 객체를 선언해서
+	NewPlayerData->PlayerName = GetPlayerName(); //현재 게임의 데이터를 객체에 넣어주고
+	NewPlayerData->Level = CharacterLevel;
+	NewPlayerData->Exp = Exp;
+	NewPlayerData->HighScore = GameHighScore;
+
+	if (!UGameplayStatics::SaveGameToSlot(NewPlayerData, SaveSlotName, 0)) //Save한다. Save가 안되면 오류 선언
+	{
+		ABLOG(Error, TEXT("SaveGame Error!"));
+	}
 }
 
 float AABPlayerState::GetExpRatio() const
@@ -53,13 +83,19 @@ bool AABPlayerState::AddExp(int32 IncomeExp)
 	}
 
 	OnPlayerStateChanged.Broadcast();
+	SavePlayerData(); //경험치에 변동이 생기면 바로 반영
 	return DidLevelUp;
 }
 
 void AABPlayerState::AddGameScore()
 {
 	GameScore++;
+	if (GameScore >= GameHighScore)
+	{
+		GameHighScore = GameScore;
+	}
 	OnPlayerStateChanged.Broadcast();
+	SavePlayerData(); //점수에 변동이 생기면 바로 반영
 }
 
 void AABPlayerState::SetCharacterLevel(int32 NewCharacterLevel)
