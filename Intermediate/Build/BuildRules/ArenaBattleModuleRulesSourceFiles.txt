@@ -1,0 +1,4 @@
+C:\Users\krist\OneDrive\Documents\Unreal Projects\ArenaBattle\Source\ArenaBattle\ArenaBattle.Build.cs
+C:\Users\krist\OneDrive\Documents\Unreal Projects\ArenaBattle\Source\ArenaBattleSetting\ArenaBattleSetting.Build.cs
+C:\Users\krist\OneDrive\Documents\Unreal Projects\ArenaBattle\Source\ArenaBattle.Target.cs
+C:\Users\krist\OneDrive\Documents\Unreal Projects\ArenaBattle\Source\ArenaBattleEditor.Target.cs
