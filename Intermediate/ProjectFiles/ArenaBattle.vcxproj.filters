@@ -4,7 +4,7 @@
 	<ItemGroup>
 		<None Include="..\..\ArenaBattle.uproject" />
 		<Filter Include="Source">
-			<UniqueIdentifier>{76B60C7D-71A6-49FF-8342-B407068C7613}</UniqueIdentifier>
+			<UniqueIdentifier>{9FB5FE41-0467-4C16-AA90-BD7C105FF874}</UniqueIdentifier>
 		</Filter>
 		<None Include="..\..\Source\ArenaBattle.Target.cs">
 			<Filter>Source</Filter>
@@ -13,7 +13,7 @@
 			<Filter>Source</Filter>
 		</None >
 		<Filter Include="Config">
-			<UniqueIdentifier>{750F7552-383E-41DE-8C69-D3A2DF2908CB}</UniqueIdentifier>
+			<UniqueIdentifier>{DE5AA293-7FDF-4737-9A48-A3508335AF85}</UniqueIdentifier>
 		</Filter>
 		<None Include="..\..\Config\DefaultArenaBattle.ini">
 			<Filter>Config</Filter>
@@ -34,13 +34,13 @@
 			<Filter>Config</Filter>
 		</None >
 		<Filter Include="Source\ArenaBattle">
-			<UniqueIdentifier>{461025D2-2B3A-43B6-92F1-7F420E675E22}</UniqueIdentifier>
+			<UniqueIdentifier>{4BCD548D-D2B5-4A9C-B959-316193BCB03B}</UniqueIdentifier>
 		</Filter>
 		<None Include="..\..\Source\ArenaBattle\ArenaBattle.Build.cs">
 			<Filter>Source\ArenaBattle</Filter>
 		</None >
 		<Filter Include="Source\ArenaBattle\private">
-			<UniqueIdentifier>{112F809F-915F-4EB7-9111-0388377A29BB}</UniqueIdentifier>
+			<UniqueIdentifier>{17E240FA-FEE7-4ED7-B748-601D606CAFB2}</UniqueIdentifier>
 		</Filter>
 		<ClCompile Include="..\..\Source\ArenaBattle\private\ABAIController.cpp">
 			<Filter>Source\ArenaBattle\private</Filter>
@@ -87,6 +87,9 @@
 		<ClCompile Include="..\..\Source\ArenaBattle\private\ABSection.cpp">
 			<Filter>Source\ArenaBattle\private</Filter>
 		</ClCompile >
+		<ClCompile Include="..\..\Source\ArenaBattle\private\ABUIPlayerController.cpp">
+			<Filter>Source\ArenaBattle\private</Filter>
+		</ClCompile >
 		<ClCompile Include="..\..\Source\ArenaBattle\private\ABWeapon.cpp">
 			<Filter>Source\ArenaBattle\private</Filter>
 		</ClCompile >
@@ -112,7 +115,7 @@
 			<Filter>Source\ArenaBattle\private</Filter>
 		</ClCompile >
 		<Filter Include="Source\ArenaBattle\public">
-			<UniqueIdentifier>{EA234293-001E-4E97-9023-0FC5956139AE}</UniqueIdentifier>
+			<UniqueIdentifier>{C8CBA9F4-1128-4E49-8C33-2408C9BBE568}</UniqueIdentifier>
 		</Filter>
 		<ClInclude Include="..\..\Source\ArenaBattle\public\ABAIController.h">
 			<Filter>Source\ArenaBattle\public</Filter>
@@ -159,6 +162,9 @@
 		<ClInclude Include="..\..\Source\ArenaBattle\public\ABSection.h">
 			<Filter>Source\ArenaBattle\public</Filter>
 		</ClInclude >
+		<ClInclude Include="..\..\Source\ArenaBattle\public\ABUIPlayerController.h">
+			<Filter>Source\ArenaBattle\public</Filter>
+		</ClInclude >
 		<ClInclude Include="..\..\Source\ArenaBattle\public\ABWeapon.h">
 			<Filter>Source\ArenaBattle\public</Filter>
 		</ClInclude >
@@ -187,13 +193,13 @@
 			<Filter>Source\ArenaBattle\public</Filter>
 		</None >
 		<Filter Include="Source\ArenaBattleSetting">
-			<UniqueIdentifier>{F093D1C3-9042-45C3-B918-B458FED21C57}</UniqueIdentifier>
+			<UniqueIdentifier>{9353AB89-06B1-4F33-9D7C-B085168D5316}</UniqueIdentifier>
 		</Filter>
 		<None Include="..\..\Source\ArenaBattleSetting\ArenaBattleSetting.Build.cs">
 			<Filter>Source\ArenaBattleSetting</Filter>
 		</None >
 		<Filter Include="Source\ArenaBattleSetting\Private">
-			<UniqueIdentifier>{6C2694C1-EEB5-40EE-9542-E5ACE9568CCD}</UniqueIdentifier>
+			<UniqueIdentifier>{41A60913-FE12-4458-A263-2B7A770D4759}</UniqueIdentifier>
 		</Filter>
 		<ClCompile Include="..\..\Source\ArenaBattleSetting\Private\ABCharacterSetting.cpp">
 			<Filter>Source\ArenaBattleSetting\Private</Filter>
@@ -202,7 +208,7 @@
 			<Filter>Source\ArenaBattleSetting\Private</Filter>
 		</ClCompile >
 		<Filter Include="Source\ArenaBattleSetting\Public">
-			<UniqueIdentifier>{1E86C6C9-6204-424C-93B0-CEB1D5F5BC08}</UniqueIdentifier>
+			<UniqueIdentifier>{97CA11DF-59C3-4E7C-BC18-4848D2207A5D}</UniqueIdentifier>
 		</Filter>
 		<ClInclude Include="..\..\Source\ArenaBattleSetting\Public\ABCharacterSetting.h">
 			<Filter>Source\ArenaBattleSetting\Public</Filter>
