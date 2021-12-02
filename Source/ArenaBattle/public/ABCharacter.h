@@ -83,7 +83,7 @@ private:
 	void LookUp(float NewAxisValue);
 
 	void ViewChange();
-	
+
 
 	UFUNCTION()
 	void OnAttackMontageEnded(UAnimMontage* Montage, bool bInterrupted);

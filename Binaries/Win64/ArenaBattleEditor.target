@@ -16,27 +16,27 @@
 	},
 	"BuildProducts": [
 		{
-			"Path": "$(ProjectDir)/Binaries/Win64/UE4Editor-ArenaBattle-3690.dll",
+			"Path": "$(ProjectDir)/Binaries/Win64/UE4Editor-ArenaBattle-1983.dll",
 			"Type": "DynamicLibrary"
 		},
 		{
-			"Path": "$(ProjectDir)/Binaries/Win64/UE4Editor-ArenaBattle-3690.pdb",
+			"Path": "$(ProjectDir)/Binaries/Win64/UE4Editor-ArenaBattle-1983.pdb",
 			"Type": "SymbolFile"
 		},
 		{
-			"Path": "$(ProjectDir)/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-ArenaBattle-3690.lib",
+			"Path": "$(ProjectDir)/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-ArenaBattle-1983.lib",
 			"Type": "ImportLibrary"
 		},
 		{
-			"Path": "$(ProjectDir)/Binaries/Win64/UE4Editor-ArenaBattleSetting-3690.dll",
+			"Path": "$(ProjectDir)/Binaries/Win64/UE4Editor-ArenaBattleSetting-1084.dll",
 			"Type": "DynamicLibrary"
 		},
 		{
-			"Path": "$(ProjectDir)/Binaries/Win64/UE4Editor-ArenaBattleSetting-3690.pdb",
+			"Path": "$(ProjectDir)/Binaries/Win64/UE4Editor-ArenaBattleSetting-1084.pdb",
 			"Type": "SymbolFile"
 		},
 		{
-			"Path": "$(ProjectDir)/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-ArenaBattleSetting-3690.lib",
+			"Path": "$(ProjectDir)/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-ArenaBattleSetting-1084.lib",
 			"Type": "ImportLibrary"
 		},
 		{

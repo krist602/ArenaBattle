@@ -23,7 +23,7 @@ AABCharacter::AABCharacter()
 	//CreateDefaultSubobject : 클래스를 인스턴스화 시키는 메소드. 뒤에 TEXT의 값은 HASH값으로 유일해야한다.
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SPRINGARM"));
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("CAMERA"));
-	CharacterStat = CreateDefaultSubobject<UABCharacterStatComponent>(TEXT("CHARACTERSTAT")); 
+	CharacterStat = CreateDefaultSubobject<UABCharacterStatComponent>(TEXT("CHARACTERSTAT"));
 	HPBarWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("HPBARWIDGET"));
 
 	SpringArm->SetupAttachment(GetCapsuleComponent());
@@ -86,6 +86,43 @@ AABCharacter::AABCharacter()
 	DeadTimer = 5.0f;
 }
 
+// Called when the game starts or when spawned
+void AABCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	bIsPlayer = IsPlayerControlled(); //Player라면 True를 반환.
+	if (bIsPlayer)
+	{
+		ABPlayerController = Cast<AABPlayerController>(GetController());
+		ABCHECK(nullptr != ABPlayerController);
+	}
+	else
+	{
+		ABAIController = Cast<AABAIController>(GetController());
+		ABCHECK(nullptr != ABAIController);
+	}
+
+	auto DefaultSetting = GetDefault<UABCharacterSetting>();
+
+	if (bIsPlayer)
+	{
+		auto ABPlayerState = Cast<AABPlayerState>(PlayerState);
+		ABCHECK(nullptr != ABPlayerState);
+		AssetIndex = ABPlayerState->GetCharacterIndex();
+	}
+	else
+	{
+		AssetIndex = FMath::RandRange(0, DefaultSetting->CharacterAssets.Num() - 1); //플레이어가 아니라면 랜덤으로 하나를 호출
+	}
+
+	CharacterAssetToLoad = DefaultSetting->CharacterAssets[AssetIndex];
+	auto ABGameInstance = Cast<UABGameInstance>(GetGameInstance());
+	ABCHECK(nullptr != ABGameInstance);
+	AssetStreamingHandle = ABGameInstance->StreamableManager.RequestAsyncLoad(CharacterAssetToLoad, FStreamableDelegate::CreateUObject(this, &AABCharacter::OnAssetLoadCompleted));
+	SetCharacterState(ECharacterState::LOADING);
+}
+
 void AABCharacter::SetCharacterState(ECharacterState NewState)
 {
 	ABCHECK(CurrentState != NewState);
@@ -143,7 +180,7 @@ void AABCharacter::SetCharacterState(ECharacterState NewState)
 			EnableInput(ABPlayerController); //플레이어라면 READY단계에서 Character를 컨트롤할 수 있도록 열어줌.
 		}
 		else
-		{ 
+		{
 			SetControlMode(EControlMode::NPC);
 			GetCharacterMovement()->MaxWalkSpeed = 400.0f;
 			ABAIController->RunAI();
@@ -168,7 +205,8 @@ void AABCharacter::SetCharacterState(ECharacterState NewState)
 			ABAIController->StopAI();
 		}
 		//어떤 개체가 죽으면, DeadTimer(5.0f)이후에 죽은 것이 Player라면 Restart를 하고, NPC라면 없앤다는 것 같다.
-		GetWorld()->GetTimerManager().SetTimer(DeadTimerHandle, FTimerDelegate::CreateLambda([this]()->void {
+		//죽으면 5초 뒤에  게임 재시작하거나 NPC 시체 맵에서 치운다는 뜻.
+		GetWorld()->GetTimerManager().SetTimer(DeadTimerHandle, FTimerDelegate::CreateLambda([this]() -> void {
 
 			if (bIsPlayer)
 			{
@@ -178,6 +216,7 @@ void AABCharacter::SetCharacterState(ECharacterState NewState)
 			{
 				Destroy();
 			}
+
 		}), DeadTimer, false);
 
 		break;
@@ -198,93 +237,13 @@ int32 AABCharacter::GetExp() const
 float AABCharacter::GetFinalAttackRange() const
 {
 	return (nullptr != CurrentWeapon) ? CurrentWeapon->GetAttackRange() : AttackRange;
-	
 }
 
 float AABCharacter::GetFinalAttackDamage() const
 {
 	float AttackDamage = (nullptr != CurrentWeapon) ? (CharacterStat->GetAttack() + CurrentWeapon->GetAttackDamage()) : CharacterStat->GetAttack();
-
 	float AttackModifier = (nullptr != CurrentWeapon) ? CurrentWeapon->GetAttackModifier() : 1.0f;
-
-	return AttackDamage*AttackModifier;
-}
-
-// Called when the game starts or when spawned
-void AABCharacter::BeginPlay()
-{
-	Super::BeginPlay();
-
-	bIsPlayer = IsPlayerControlled(); //Player라면 True를 반환.
-	if (bIsPlayer)
-	{
-		ABPlayerController = Cast<AABPlayerController>(GetController());
-		ABCHECK(nullptr != ABPlayerController);
-	}
-	else
-	{
-		ABAIController = Cast<AABAIController>(GetController());
-		ABCHECK(nullptr != ABAIController);
-	}
-
-	auto DefaultSetting = GetDefault<UABCharacterSetting>();
-
-	if (bIsPlayer)
-	{
-		auto ABPlayerState = Cast<AABPlayerState>(PlayerState);
-		ABCHECK(nullptr != ABPlayerState);
-		AssetIndex = ABPlayerState->GetCharacterIndex();
-		/**//**//**/
-	}
-	else
-	{
-		AssetIndex = FMath::RandRange(0, DefaultSetting->CharacterAssets.Num() - 1); //플레이어가 아니라면 랜덤으로 하나를 호출
-		/**//**//**/
-	}
-
-	CharacterAssetToLoad = DefaultSetting->CharacterAssets[AssetIndex];
-	auto ABGameInstance = Cast<UABGameInstance>(GetGameInstance());
-	ABCHECK(nullptr != ABGameInstance);
-	AssetStreamingHandle = ABGameInstance->StreamableManager.RequestAsyncLoad(CharacterAssetToLoad, FStreamableDelegate::CreateUObject(this, &AABCharacter::OnAssetLoadCompleted));
-	SetCharacterState(ECharacterState::LOADING);
-
-	/*if (!IsPlayerControlled())
-	{
-		auto DefaultSetting = GetDefault<UABCharacterSetting>();
-		int32 RandIndex = FMath::RandRange(0, DefaultSetting->CharacterAssets.Num() - 1);
-		CharacterAssetToLoad = DefaultSetting->CharacterAssets[RandIndex];
-
-		auto ABGameInstance = Cast<UABGameInstance>(GetGameInstance());
-		if (nullptr != ABGameInstance)
-		{
-			AssetStreamingHandle = ABGameInstance->StreamableManager.RequestAsyncLoad(CharacterAssetToLoad, FStreamableDelegate::CreateUObject(this, &AABCharacter::OnAssetLoadCompleted));
-		}
-	}*/
-}
-
-bool AABCharacter::CanSetWeapon()
-{
-	return true;
-}
-
-void AABCharacter::SetWeapon(AABWeapon* NewWeapon)
-{
-	ABCHECK(nullptr != NewWeapon);
-
-	if (nullptr != CurrentWeapon)
-	{
-		CurrentWeapon->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
-		CurrentWeapon->Destroy();
-		CurrentWeapon = nullptr;
-	}
-
-	FName WeaponSocket(TEXT("hand_rSocket"));
-	if (nullptr != NewWeapon)
-	{
-		NewWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponSocket);
-		NewWeapon->SetOwner(this);
-		CurrentWeapon = NewWeapon;
-	}
+	return AttackDamage * AttackModifier;
 }
 
 void AABCharacter::SetControlMode(EControlMode NewControlMode)
@@ -384,6 +343,7 @@ void AABCharacter::PostInitializeComponents()
 		ABLOG(Warning, TEXT("OnHPIsZero"));
 		ABAnim->SetDeadAnim();
 		SetActorEnableCollision(false);
+
 	});
 
 	auto CharacterWIdget = Cast<UABCharacterWidget>(HPBarWidget->GetUserWidgetObject());
@@ -391,6 +351,30 @@ void AABCharacter::PostInitializeComponents()
 	{
 		CharacterWIdget->BindCharacterStat(CharacterStat);
 	}
+}
+
+float AABCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser)
+{
+	float FinalDamage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	ABLOG(Warning, TEXT("Actor : %s took Damage : %f"), *GetName(), FinalDamage);
+
+	CharacterStat->SetDamage(FinalDamage);
+	if (CurrentState == ECharacterState::DEAD) //현재 상태가 DEAD라면
+	{
+		if (EventInstigator->IsPlayerController()) //가해자(Instigator)가 PlayerController일 시
+		{
+			auto ABPlayerController = Cast<AABPlayerController>(EventInstigator);
+			ABCHECK(nullptr != ABPlayerController, 0.0f);
+			ABPlayerController->NPCKill(this); //Player가 NPC를 죽였다.
+		}
+	}
+
+	return FinalDamage;
+}
+
+void AABCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
 }
 
 // Called to bind functionality to input
@@ -406,6 +390,31 @@ void AABCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAxis(TEXT("LeftRight"), this, &AABCharacter::LeftRight);
 	PlayerInputComponent->BindAxis(TEXT("Turn"), this, &AABCharacter::Turn);
 	PlayerInputComponent->BindAxis(TEXT("LookUp"), this, &AABCharacter::LookUp);
+}
+
+bool AABCharacter::CanSetWeapon()
+{
+	return true;
+}
+
+void AABCharacter::SetWeapon(AABWeapon* NewWeapon)
+{
+	ABCHECK(nullptr != NewWeapon);
+
+	if (nullptr != CurrentWeapon)
+	{
+		CurrentWeapon->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+		CurrentWeapon->Destroy();
+		CurrentWeapon = nullptr;
+	}
+
+	FName WeaponSocket(TEXT("hand_rSocket"));
+	if (nullptr != NewWeapon)
+	{
+		NewWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponSocket);
+		NewWeapon->SetOwner(this);
+		CurrentWeapon = NewWeapon;
+	}
 }
 
 void AABCharacter::UpDown(float NewAxisValue)
@@ -559,41 +568,6 @@ void AABCharacter::AttackCheck()
 			HitResult.Actor->TakeDamage(GetFinalAttackDamage(), DamageEvent, GetController(), this);
 		}
 
-	}
-}
-
-float AABCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser)
-{
-	float FinalDamage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
-	ABLOG(Warning, TEXT("Actor : %s took Damage : %f"), *GetName(), FinalDamage);
-		
-	CharacterStat->SetDamage(FinalDamage);
-	if (CurrentState == ECharacterState::DEAD) //현재 상태가 DEAD라면
-	{
-		if (EventInstigator->IsPlayerController()) //가해자(Instigator)가 PlayerController일 시
-		{
-			auto ABPlayerController = Cast<AABPlayerController>(EventInstigator);
-			ABCHECK(nullptr != ABPlayerController, 0.0f);
-			ABPlayerController->NPCKill(this); //Player가 NPC를 죽였다.
-		}
-	}
-
-	return FinalDamage;
-}
-
-void AABCharacter::PossessedBy(AController* NewController)
-{
-	Super::PossessedBy(NewController);
-
-	if (IsPlayerControlled())
-	{
-		SetControlMode(EControlMode::DIABLO);
-		GetCharacterMovement()->MaxWalkSpeed = 600.0f;
-	}
-	else
-	{
-		SetControlMode(EControlMode::NPC);
-		GetCharacterMovement()->MaxWalkSpeed = 300.0f;
 	}
 }
 
