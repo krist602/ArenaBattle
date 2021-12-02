@@ -576,6 +576,7 @@ void AABCharacter::OnAssetLoadCompleted()
 	USkeletalMesh* AssetLoaded = Cast<USkeletalMesh>(AssetStreamingHandle->GetLoadedAsset());
 	AssetStreamingHandle.Reset();
 	ABCHECK(nullptr != AssetLoaded);
+	GetMesh()->SetSkeletalMesh(AssetLoaded);
 
 	SetCharacterState(ECharacterState::READY);
 }
