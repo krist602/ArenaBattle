@@ -425,6 +425,8 @@
 		<ClCompile Include="..\..\Source\ArenaBattle\private\ABCharacterWidget.cpp" />
 		<ClCompile Include="..\..\Source\ArenaBattle\private\ABGameInstance.cpp" />
 		<ClCompile Include="..\..\Source\ArenaBattle\private\ABGameMode.cpp" />
+		<ClCompile Include="..\..\Source\ArenaBattle\private\ABGameplayResultWidget.cpp" />
+		<ClCompile Include="..\..\Source\ArenaBattle\private\ABGameplayWidget.cpp" />
 		<ClCompile Include="..\..\Source\ArenaBattle\private\ABGameState.cpp" />
 		<ClCompile Include="..\..\Source\ArenaBattle\private\ABHUDWidget.cpp" />
 		<ClCompile Include="..\..\Source\ArenaBattle\private\ABItemBox.cpp" />
@@ -450,6 +452,8 @@
 		<ClInclude Include="..\..\Source\ArenaBattle\public\ABCharacterWidget.h" />
 		<ClInclude Include="..\..\Source\ArenaBattle\public\ABGameInstance.h" />
 		<ClInclude Include="..\..\Source\ArenaBattle\public\ABGameMode.h" />
+		<ClInclude Include="..\..\Source\ArenaBattle\public\ABGameplayResultWidget.h" />
+		<ClInclude Include="..\..\Source\ArenaBattle\public\ABGameplayWidget.h" />
 		<ClInclude Include="..\..\Source\ArenaBattle\public\ABGameState.h" />
 		<ClInclude Include="..\..\Source\ArenaBattle\public\ABHUDWidget.h" />
 		<ClInclude Include="..\..\Source\ArenaBattle\public\ABItemBox.h" />
