@@ -231,11 +231,15 @@ void AABCharacter::BeginPlay()
 
 	if (bIsPlayer)
 	{
-		AssetIndex = 4;
+		auto ABPlayerState = Cast<AABPlayerState>(PlayerState);
+		ABCHECK(nullptr != ABPlayerState);
+		AssetIndex = ABPlayerState->GetCharacterIndex();
+		/**//**//**/
 	}
 	else
 	{
 		AssetIndex = FMath::RandRange(0, DefaultSetting->CharacterAssets.Num() - 1); //플레이어가 아니라면 랜덤으로 하나를 호출
+		/**//**//**/
 	}
 
 	CharacterAssetToLoad = DefaultSetting->CharacterAssets[AssetIndex];

@@ -43,6 +43,12 @@ void EmptyLinkFunctionForGeneratedCodeABPlayerState() {}
 			};
 #endif
 #if WITH_METADATA
+			static const UE4CodeGen_Private::FMetaDataPairParam NewProp_CharacterIndex_MetaData[] = {
+				{ "ModuleRelativePath", "public/ABPlayerState.h" },
+			};
+#endif
+			static const UE4CodeGen_Private::FIntPropertyParams NewProp_CharacterIndex = { UE4CodeGen_Private::EPropertyClass::Int, "CharacterIndex", RF_Public|RF_Transient|RF_MarkAsNative, 0x0020080000002000, 1, nullptr, STRUCT_OFFSET(AABPlayerState, CharacterIndex), METADATA_PARAMS(NewProp_CharacterIndex_MetaData, ARRAY_COUNT(NewProp_CharacterIndex_MetaData)) };
+#if WITH_METADATA
 			static const UE4CodeGen_Private::FMetaDataPairParam NewProp_Exp_MetaData[] = {
 				{ "ModuleRelativePath", "public/ABPlayerState.h" },
 			};
@@ -67,6 +73,7 @@ void EmptyLinkFunctionForGeneratedCodeABPlayerState() {}
 #endif
 			static const UE4CodeGen_Private::FIntPropertyParams NewProp_GameScore = { UE4CodeGen_Private::EPropertyClass::Int, "GameScore", RF_Public|RF_Transient|RF_MarkAsNative, 0x0020080000002000, 1, nullptr, STRUCT_OFFSET(AABPlayerState, GameScore), METADATA_PARAMS(NewProp_GameScore_MetaData, ARRAY_COUNT(NewProp_GameScore_MetaData)) };
 			static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[] = {
+				(const UE4CodeGen_Private::FPropertyParamsBase*)&NewProp_CharacterIndex,
 				(const UE4CodeGen_Private::FPropertyParamsBase*)&NewProp_Exp,
 				(const UE4CodeGen_Private::FPropertyParamsBase*)&NewProp_CharacterLevel,
 				(const UE4CodeGen_Private::FPropertyParamsBase*)&NewProp_GameHighScore,
@@ -90,7 +97,7 @@ void EmptyLinkFunctionForGeneratedCodeABPlayerState() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AABPlayerState, 2330875054);
+	IMPLEMENT_CLASS(AABPlayerState, 4257103813);
 	static FCompiledInDefer Z_CompiledInDefer_UClass_AABPlayerState(Z_Construct_UClass_AABPlayerState, &AABPlayerState::StaticClass, TEXT("/Script/ArenaBattle"), TEXT("AABPlayerState"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(AABPlayerState);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

@@ -41,6 +41,12 @@ void EmptyLinkFunctionForGeneratedCodeABSaveGame() {}
 			};
 #endif
 #if WITH_METADATA
+			static const UE4CodeGen_Private::FMetaDataPairParam NewProp_CharacterIndex_MetaData[] = {
+				{ "ModuleRelativePath", "public/ABSaveGame.h" },
+			};
+#endif
+			static const UE4CodeGen_Private::FIntPropertyParams NewProp_CharacterIndex = { UE4CodeGen_Private::EPropertyClass::Int, "CharacterIndex", RF_Public|RF_Transient|RF_MarkAsNative, 0x0010000000000000, 1, nullptr, STRUCT_OFFSET(UABSaveGame, CharacterIndex), METADATA_PARAMS(NewProp_CharacterIndex_MetaData, ARRAY_COUNT(NewProp_CharacterIndex_MetaData)) };
+#if WITH_METADATA
 			static const UE4CodeGen_Private::FMetaDataPairParam NewProp_HighScore_MetaData[] = {
 				{ "ModuleRelativePath", "public/ABSaveGame.h" },
 			};
@@ -65,6 +71,7 @@ void EmptyLinkFunctionForGeneratedCodeABSaveGame() {}
 #endif
 			static const UE4CodeGen_Private::FIntPropertyParams NewProp_Level = { UE4CodeGen_Private::EPropertyClass::Int, "Level", RF_Public|RF_Transient|RF_MarkAsNative, 0x0010000000000000, 1, nullptr, STRUCT_OFFSET(UABSaveGame, Level), METADATA_PARAMS(NewProp_Level_MetaData, ARRAY_COUNT(NewProp_Level_MetaData)) };
 			static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[] = {
+				(const UE4CodeGen_Private::FPropertyParamsBase*)&NewProp_CharacterIndex,
 				(const UE4CodeGen_Private::FPropertyParamsBase*)&NewProp_HighScore,
 				(const UE4CodeGen_Private::FPropertyParamsBase*)&NewProp_PlayerName,
 				(const UE4CodeGen_Private::FPropertyParamsBase*)&NewProp_Exp,
@@ -88,7 +95,7 @@ void EmptyLinkFunctionForGeneratedCodeABSaveGame() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(UABSaveGame, 154538235);
+	IMPLEMENT_CLASS(UABSaveGame, 2672825158);
 	static FCompiledInDefer Z_CompiledInDefer_UClass_UABSaveGame(Z_Construct_UClass_UABSaveGame, &UABSaveGame::StaticClass, TEXT("/Script/ArenaBattle"), TEXT("UABSaveGame"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(UABSaveGame);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
